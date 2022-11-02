@@ -1,0 +1,160 @@
+#!/usr/bin/env sh
+
+# TODO: important!
+
+# https://community.clearlinux.org/t/what-is-the-recommended-way-to-install-packages-not-included-in-any-bundle/1321/22
+
+# Disable hardware acceleration othewise Firefox will get crazy
+# https://community.clearlinux.org/t/youtube-an-error-occurred-please-try-again-later/4451/3
+# security.sandbox.content.level 2
+# security.sandbox.content.read_path_whitelist = /sys/devices/pci0000:00/0000:00:02.0/subsystem
+#
+
+
+# Resources
+# https://community.clearlinux.org/t/my-personal-clear-linux-software-installation-guide/4984
+# https://community.clearlinux.org/t/what-is-the-recommended-way-to-install-packages-not-included-in-any-bundle/1321/22
+
+if [ -f ./first-time ]
+then
+	echo
+else
+	echo Touching first-time
+	touch ./first-time
+	echo
+fi
+
+cleanup() {
+	#sudo swupd bundle-remove evince
+	sudo swupd bundle-remove evolution
+	sudo swupd bundle-remove geary
+	sudo swupd bundle-remove gnome-music 
+	sudo swupd bundle-remove gnome-photos 
+	#sudo swupd bundle-remove gnome-screenshot
+	sudo swupd bundle-remove gnome-todo
+	sudo swupd bundle-remove totem
+	
+	# desktop-apps-extras
+  sudo swupd bundle-remove atom darktable pidgin quassel Remmina thunderbird
+
+}
+
+configure_gnome() {
+	#https://computingforgeeks.com/how-to-turn-off-terminal-beep-sound-on-linux/
+	# Settings -> Sound -> disable Systems Sounds
+	dconf write /org/gnome/desktop/sound/event-sounds false
+}
+
+configure_swupd() {
+	sudo swupd mirror --max-parallel-downloads=20	
+}
+
+install_system() {
+	#sudo swupd bundle-add dnf shells
+	PACKAGES=(dnf gparted shells)
+	install_packages "${PACKAGES[@]}"
+	
+	# H.264
+	# https://community.clearlinux.org/t/bash-script-to-add-h-264-support-for-firefox/2367
+	# https://community.clearlinux.org/t/ffmpeg-on-clear-linux-including-h-264-and-vp9-acceleration/6148/4
+	#./install_ffmpeg.bash
+}
+
+install_command_line_tools() {
+	#sudo swupd bundle-add zathura wget
+	PACKAGES=(zathura wget)
+	install_packages "${PACKAGES[@]}"
+}
+
+install_gnome_integration() {
+	# TODO: setup-flatpak
+
+	# desktop-apps-extras for chrome-gnome-shell
+	# https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep
+	# sassc for vimix gtk themes
+	#sudo swupd bundle-add desktop-apps-extras sassc
+	PACKAGES=(desktop-apps-extras sassc)
+	install_packages "${PACKAGES[@]}"
+}
+
+install_dev() {
+	. ./setup-nodejs
+	# https://clearlinux.org/software/bundle/ruby-basic
+  # https://clearlinux.org/software/docker/ruby
+  # https://clearlinux.org/software/bundle/rust-basic
+
+	#editors-dev
+	# dev-utils-dev is installed by editors-dev
+	PACKAGES=(dev-utils sqlite the_silver_searcher)
+	install_packages "${PACKAGES[@]}"
+	
+	flatpak install flathub --user --noninteractive --ostree-verbose org.sqlitebrowser.sqlitebrowser
+	flatpak install flathub --user --noninteractive --ostree-verbose io.dbeaver.DBeaverCommunity
+	flatpak install flathub --user --noninteractive --ostree-verbose com.github.muriloventuroso.easyssh
+	flatpak install flathub --user --noninteractive --ostree-verbose org.gnome.gitg
+	
+	#git config --global credential.helper /usr/libexec/git-core/git-credential-libsecret
+	
+	# https://docs.github.com/pt/get-started/getting-started-with-git/why-is-git-always-asking-for-my-password
+	# https://docs.github.com/pt/get-started/getting-started-with-git/caching-your-github-credentials-in-git
+	# https://github.com/cli/cli/releases/latest
+	# gh auth login
+}
+
+install_docker() {
+	. ./setup-docker
+}
+
+install_flameshot() {
+	flatpak install flathub org.flameshot.Flameshot
+	
+	# or	
+	PACKAGES=(qt-basic-dev)
+	install_packages "${PACKAGES[@]}"
+	
+	cd ~/Downloads/ && git clone https://github.com/lupoDharkael/flameshot && cd flameshot
+	cmake . && make -j4
+	sudo make install
+	cd ~/Downloads && rm -rf flameshot
+	
+	# finished, navigate to Gnome Settings -> Keyboard Shortcuts (scroll to the bottom) -> +
+
+	#Name: Any
+	#Command: flameshot gui
+	#Shortcut: bind something
+}
+
+install_i3() {
+	# TODO: nitrogen picom polybar
+	. ./setup-i3
+}
+
+install_network() {
+	#sudo swupd bundle-add clr-network-troubleshooter network-basic wget
+	PACKAGES=(clr-network-troubleshooter network-basic wget)
+	install_packages "${PACKAGES[@]}"
+}
+
+install_themes() {
+	cd /tmp
+	git clone https://github.com/vinceliuice/vimix-gtk-themes
+	vimix-gtk-themes/install.sh -t ruby
+	git clone https://github.com/vinceliuice/vimix-icon-theme
+	vimix-icon-theme/install.sh -a
+	cd $SETUP_DIR
+}
+
+configure_gnome
+configure_swupd
+install_system
+install_command_line_tools
+install_gnome_integration
+install_dev
+install_docker
+#install_flameshot
+install_i3
+install_network
+install_themes
+
+cleanup
+

@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+echo setup-nvim
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+setup_nvim () {
+  if ! exists kitty; then
+  	install_packages $@
+  fi
+  # TODO: check when backup config
+  
+  #mv ~/.config/nvim ~/.config/nvimbackup
+  # Currently testing AstroNvim
+  single_repo https://github.com/AstroNvim/AstroNvim nvim
+  single_repo https://github.com/maxdevjs/dotfiles-astronvim-config astronvim
+  
+  # Initialize AstroNvim
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  # :LspInstall css emmet_ls html json lua typescript
+  #TODO: setup LSP servers
+  #nvim --headless -c 'autocmd User quitall' -c 'LspInstall css'
+  #nvim --headless -c 'LspInstall emmet_ls'
+  #nvim --headless -c 'LspInstall html'
+  #nvim --headless -c 'LspInstall json'
+  #nvim --headless -c 'LspInstall lua'
+  #nvim --headless -c 'LspInstall typescript'
+}
+
+PACKAGES_NVIM=(neovim)
+
+setup_nvim "${PACKAGES_NVIM[@]}"
+

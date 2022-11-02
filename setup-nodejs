@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+echo setup-nodejs
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+setup_nodejs () {
+  fish -c 'nvm install latest'
+  fish -c 'set --universal nvm_default_version latest'
+}
+
+# TODO: REPOS? .npmrc?
+setup_nodejs
+

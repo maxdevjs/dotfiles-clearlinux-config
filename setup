@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+. ./setup-utilities
+
+if [ -f ./first-time ]
+then
+	echo
+	echo Check setup-first-time for important hints
+	echo
+else
+	echo
+	echo First time: check setup-first-time for important hints
+	. ./setup-first-time
+fi
+
+#. ./setup-docker -> setup-first-time
+. ./setup-fish
+. ./setup-flatpak
+#. ./setup-fonts
+. ./setup-i3
+. ./setup-kitty
+#. ./setup-nix
+. ./setup-nodejs
+#. ./setup-nvim
+

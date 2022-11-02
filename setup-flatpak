@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+echo setup-flatpack
+
+function setup_flatpack () {
+  #flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  #flatpak remote-add --if-not-exists flathub https://flatpak.elementary.io/repo.flatpakrepo
+  
+  # https://www.internet-radio.com/
+  #flatpak install flathub io.gitlab.Goodvibes com.rafaelmardojai.Blanket org.processing.processingide om.getpostman.Postman com.github.artemanufrij.regextester #com.github.alecaddd.sequeler com.sublimemerge.App com.github.mdh34.quickdocs
+  # partyvibe https://www.internet-radio.com/station/pvc-psytrance/ http://www.partyviberadio.com:8010/listen.pls?sid=1&t=.mp3
+  
+  # https://fostips.com/remove-flatpak-apps-free-up-disk/
+  #flatpak list --app
+  #flatpak list --runtime
+  #flatpak uninstall --delete-data ...
+  #flatpak uninstall --unused
+  #flatpak uninstall --all --delete-data
+  
+  flatpak uninstall --noninteractive --unused # --delete-data
+  flatpak update
+  # https://community.clearlinux.org/t/installing-google-chrome-on-clear-linux/1132/58
+  flatpak install flathub --user --noninteractive --or-update --ostree-verbose com.google.Chrome com.google.ChromeDev
+}
+
+setup_flatpack
