@@ -2,6 +2,11 @@
 
 # TODO: important!
 
+# To have a separate home partition,
+# name it CLR_MNT_/home
+# Alternative: create /etc/fstab with content similar to:
+# UUID=d2a37366-b535-4d86-855c-684f36664356 /home ext4 noatime 0 2
+
 # https://community.clearlinux.org/t/what-is-the-recommended-way-to-install-packages-not-included-in-any-bundle/1321/22
 
 # Disable hardware acceleration othewise Firefox will get crazy
