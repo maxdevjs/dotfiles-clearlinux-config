@@ -3,8 +3,13 @@ Personal config/setup files for Clear Linux
 
 ## TODO
 
+### Criticals
+
 - [x] fix `kitty -v` creates `kitty` empty dir in `$XDG_CONFIG_HOME`
 
+### Normal
+
+- [ ] fonts
 - [ ] gh: check version for update
 - [x] vimix-icon-theme: fix installation
 - [ ] fzf: install
