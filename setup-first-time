@@ -2,10 +2,17 @@
 
 # TODO: important!
 
+# https://community.clearlinux.org/t/solved-clr-mnt-question-yet-again/8101
 # To have a separate home partition,
 # name it CLR_MNT_/home
+# Default /root/home must be empty!
 # Alternative: create /etc/fstab with content similar to:
 # UUID=d2a37366-b535-4d86-855c-684f36664356 /home ext4 noatime 0 2
+
+# https://www.freedesktop.org/wiki/Specifications/DiscoverablePartitionsSpec/
+# lsblk -o NAME,PARTLABEL,SIZE,TYPE,PARTTYPE
+# https://community.clearlinux.org/t/found-invalid-clr-mnt-home-partition/5158
+# CLR_MNT_/home
 
 # https://community.clearlinux.org/t/what-is-the-recommended-way-to-install-packages-not-included-in-any-bundle/1321/22
 
@@ -14,7 +21,6 @@
 # security.sandbox.content.level 2
 # security.sandbox.content.read_path_whitelist = /sys/devices/pci0000:00/0000:00:02.0/subsystem
 #
-
 
 # Resources
 # https://community.clearlinux.org/t/my-personal-clear-linux-software-installation-guide/4984
@@ -140,6 +146,10 @@ install_network() {
 	install_packages "${PACKAGES[@]}"
 }
 
+install_samba() {
+	. ./setup-samba
+}
+
 install_themes() {
 	cd /tmp
 	git clone https://github.com/vinceliuice/vimix-gtk-themes
@@ -159,6 +169,7 @@ install_docker
 #install_flameshot
 install_i3
 install_network
+install_samba
 install_themes
 
 cleanup
