@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+echo setup-samba
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+# TODO: systemctl start samba.service
+#Job for samba.service failed because the control process exited with error code.
+#See "systemctl status samba.service" and "journalctl -xeu samba.service" for details.
+
+setup_samba () {
+  if ! exists samba; then
+  	install_packages $@
+
+		# https://github.com/clearlinux/clear-linux-documentation/blob/master/source/tutorials/smb-server.rst
+
+		sudo mkdir /etc/samba
+		#sudo cp ./samba/etc/samba/smb.conf /etc/samba
+sudo tee /etc/samba/smb.conf <<EOF
+[Global]
+map to guest = Bad User
+
+[SharedDrive]
+path=/home/maxdevjs/Me
+read only = no
+guest ok = no
+browsable = yes
+valid users = samba-user-1 samba-user-2
+EOF
+		
+		sudo systemctl enable --now smb
+		sudo systemctl status smb
+		sudo smbpasswd -a maxdevjs
+		
+		# List available shares.
+		#smbclient -L //<ip-address-of-smb-server>
+		# Connect to a shared drive.
+		#smbclient //<ip-address-of-smb-server>/<shared-drive> -U <user>
+
+		# Files
+		#smb://<ip-address-of-samba-server>/<shared-drive>`
+
+		#systemctl enable rpcbind.service
+		#systemctl enable nfs-server.service
+		#systemctl start rpcbind.service
+		#systemctl start nfs-server.service
+	fi
+}
+
+PACKAGES_SAMBA=(samba nfs-utils storage-utils)
+setup_samba "${PACKAGES_SAMBA[@]}"
+
