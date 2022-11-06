@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+echo setup-package-managers
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+install_package_managers () {
+  if ! exists dnf
+  then
+  	if [ ! -d sudo mkdir /etc/yum.repos.d ]
+  	then
+  		sudo mkdir /etc/yum.repos.d
+		fi
+		# There is no repository enabled in /etc/yum.repos.d https://access.redhat.com/discussions/6394941
+		# https://community.clearlinux.org/t/best-way-to-install-rpms/5036
+
+		# dnf + rpm
+		#PACKAGES=(dnf rpm-extras)
+		#install_packages "${PACKAGES[@]}"
+		
+		# https://docs.fedoraproject.org/en-US/quick-docs/dnf/
+		install_packages $@
+  fi
+  
+}
+
+	# dnf: dnf+rpm, package-utils: rpm-extras	
+PACKAGES_MANAGER=(dnf package-utils)
+
+install_package_managers "${PACKAGES_MANAGER[@]}"
+
