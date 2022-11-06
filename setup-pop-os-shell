@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+echo setup-pop-os-shell
+
+# https://community.clearlinux.org/t/i3-functionality-built-into-gnome/3777
+
+setup_tiling_pop_shell() {
+	cd /tmp
+	git clone https://github.com/pop-os/shell.git pop-os-shell
+	cd pop-os-shell
+	echo $PWD
+	# Still experiencing this
+	# fix (local-install): Restart GNOME Shell before enabling #1418
+	# https://github.com/pop-os/shell/pull/1418
+	# Manually: Alt+F2 -> r -> Enter
+	#make && make install && make enable
+	make && make install
+	#DISPLAY=:0 gnome-shell --replace & # crazy crash
+	killall -3 gnome-shell
+	echo
+	echo "Wait please! Activating Pop Shell..."
+	echo
+	sleep 5
+	make enable
+	
+	# Manual activation
+	#gnome-extensions enable "pop-shell@system76.com"
+	
+	# https://support.system76.com/articles/pop-keyboard-shortcuts/
+}
+
+setup_tiling_pop_shell
