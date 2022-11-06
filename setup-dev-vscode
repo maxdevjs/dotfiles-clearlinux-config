@@ -1,0 +1,55 @@
+#!/usr/bin/env sh
+echo setup-dev-vscode
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+rpm_way() {
+  if ! exists code; then
+  	# https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions
+  	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+		sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+		dnf check-update
+		
+		# https://unix.stackexchange.com/questions/516079/error-libpthread-so-064bit-is-needed-by-code-1-33-1-xyz-couldnt-install
+		sudo dnf install code
+  	# https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually
+  	# sudo dnf install <file>.rpm
+  	
+  	
+  	# https://go.microsoft.com/fwlink/?LinkID=760867
+	else
+		dnf check-update
+		sudo dnf install --nodeps --skip-broken code
+  fi
+}
+
+nix_way() {
+  if ! exists code; then
+  	# https://go.microsoft.com/fwlink/?LinkID=760867
+  	export NIXPKGS_ALLOW_UNFREE=1
+  	nix-env -i vscode
+  	cp ./vscode/*.desktop $HOME/.local/share/applications
+    update-desktop-database $HOME/.local/share/applications
+	else
+		export NIXPKGS_ALLOW_UNFREE=1
+		
+  	cp ./vscode/*.desktop $HOME/.local/share/applications
+    update-desktop-database $HOME/.local/share/applications
+		# https://nixos.org/manual/nix/stable/command-ref/nix-env.html
+		nix-env --upgrade vscode
+  fi
+}
+
+setup_vscode () {
+	nix_way
+}
+
+#PACKAGES_NVIM=(neovim)
+#setup_vscode "${PACKAGES_NVIM[@]}"
+setup_vscode
