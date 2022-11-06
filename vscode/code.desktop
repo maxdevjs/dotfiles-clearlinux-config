@@ -1,0 +1,19 @@
+[Desktop Entry]
+Actions=new-empty-window
+Categories=Utility;TextEditor;Development;IDE
+Comment=Code Editing. Redefined.
+Exec=/home/maxdevjs/.nix-profile/bin/code %F
+GenericName=Text Editor
+Icon=/home/maxdevjs/Me/system/setup/vscode/code.png
+Keywords=vscode
+MimeType=text/plain;inode/directory
+Name=Visual Studio Code
+StartupNotify=true
+StartupWMClass=Code
+Type=Application
+Version=1.4
+
+[Desktop Action new-empty-window]
+Exec=/home/maxdevjs/.nix-profile/bin/code --new-window %F
+Icon=/home/maxdevjs/Me/system/setup/vscode/code.png
+Name=New Empty Window
