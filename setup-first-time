@@ -61,8 +61,7 @@ configure_swupd() {
 }
 
 install_system() {
-	#sudo swupd bundle-add dnf shells
-	PACKAGES=(dnf gparted shells)
+	PACKAGES=(gparted package-utils shells TLP)
 	install_packages "${PACKAGES[@]}"
 	
 	# H.264
@@ -73,15 +72,26 @@ install_system() {
 
 install_command_line_tools() {
 	#sudo swupd bundle-add zathura wget
-	PACKAGES=(zathura wget)
+	PACKAGES=(zathura wget x11-tools)
 	install_packages "${PACKAGES[@]}"
 }
 
 install_gnome_integration() {
 	# TODO: setup-flatpak
 
+	# Deprecated!
 	# desktop-apps-extras for chrome-gnome-shell
+	# https://clearlinux.org/software/bundle/desktop-apps-extras
 	# https://chrome.google.com/webstore/detail/gnome-shell-integration/gphhapmejobijbbhgpjhcjognlahblep
+	
+	# New
+	# https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation
+	# Please note that chrome-gnome-shell package is now renamed to gnome-browser-connector.
+	
+	# There is no repository enabled in /etc/yum.repos.d https://access.redhat.com/discussions/6394941
+	# https://community.clearlinux.org/t/best-way-to-install-rpms/5036
+	sudo dnf install chrome-gnome-shell
+	
 	# sassc for vimix gtk themes
 	#sudo swupd bundle-add desktop-apps-extras sassc
 	PACKAGES=(desktop-apps-extras sassc)
@@ -89,14 +99,17 @@ install_gnome_integration() {
 }
 
 install_dev() {
-	. ./setup-nodejs
+	. ./setup-dev-nix
+	. ./setup-dev-nodejs
+	. ./setup-dev-vscode
 	# https://clearlinux.org/software/bundle/ruby-basic
   # https://clearlinux.org/software/docker/ruby
   # https://clearlinux.org/software/bundle/rust-basic
 
 	#editors-dev
 	# dev-utils-dev is installed by editors-dev
-	PACKAGES=(dev-utils sqlite the_silver_searcher)
+	# remove os-utils-gui
+	PACKAGES=(dev-utils jq sqlite the_silver_searcher)
 	install_packages "${PACKAGES[@]}"
 	
 	flatpak install flathub --user --noninteractive --ostree-verbose org.sqlitebrowser.sqlitebrowser
@@ -113,7 +126,7 @@ install_dev() {
 }
 
 install_docker() {
-	. ./setup-docker
+	. ./setup-dev-docker
 }
 
 install_flameshot() {
@@ -146,6 +159,10 @@ install_network() {
 	install_packages "${PACKAGES[@]}"
 }
 
+install_package_managers() {
+	. ./setup-package-managers
+}
+
 install_samba() {
 	. ./setup-samba
 }
@@ -159,6 +176,10 @@ install_themes() {
 	cd $SETUP_DIR
 }
 
+install_tiling_pop_shell() {
+	. ./setup-pop-os-shell
+}
+
 configure_gnome
 configure_swupd
 install_system
@@ -169,8 +190,10 @@ install_docker
 #install_flameshot
 install_i3
 install_network
+install_package_managers
 install_samba
 install_themes
+install_tiling_pop_shell
 
 cleanup
 

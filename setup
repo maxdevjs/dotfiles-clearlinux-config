@@ -19,7 +19,7 @@ fi
 #. ./setup-fonts
 . ./setup-i3
 . ./setup-kitty
-#. ./setup-nix
-. ./setup-nodejs
-#. ./setup-nvim
+#. ./setup-dev-nix
+#. ./setup-dev-nodejs
+#. ./setup-dev-nvim
 

@@ -9,6 +9,7 @@ then
 . ./setup-utilities
 fi
 
+# TODO: fails due to depemdencies (?)
 rpm_way() {
   if ! exists code; then
   	# https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions
@@ -21,8 +22,7 @@ rpm_way() {
   	# https://code.visualstudio.com/docs/setup/linux#_installing-rpm-package-manually
   	# sudo dnf install <file>.rpm
   	
-  	
-  	# https://go.microsoft.com/fwlink/?LinkID=760867
+  	# latest https://go.microsoft.com/fwlink/?LinkID=760867
 	else
 		dnf check-update
 		sudo dnf install --nodeps --skip-broken code
@@ -31,15 +31,12 @@ rpm_way() {
 
 nix_way() {
   if ! exists code; then
-  	# https://go.microsoft.com/fwlink/?LinkID=760867
   	export NIXPKGS_ALLOW_UNFREE=1
   	nix-env -i vscode
   	cp ./vscode/*.desktop $HOME/.local/share/applications
     update-desktop-database $HOME/.local/share/applications
 	else
 		export NIXPKGS_ALLOW_UNFREE=1
-		
-  	cp ./vscode/*.desktop $HOME/.local/share/applications
     update-desktop-database $HOME/.local/share/applications
 		# https://nixos.org/manual/nix/stable/command-ref/nix-env.html
 		nix-env --upgrade vscode
@@ -50,6 +47,4 @@ setup_vscode () {
 	nix_way
 }
 
-#PACKAGES_NVIM=(neovim)
-#setup_vscode "${PACKAGES_NVIM[@]}"
 setup_vscode

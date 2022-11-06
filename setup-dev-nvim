@@ -10,7 +10,7 @@ then
 fi
 
 setup_nvim () {
-  if ! exists kitty; then
+  if ! exists nvim; then
   	install_packages $@
   fi
   # TODO: check when backup config

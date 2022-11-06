@@ -21,6 +21,8 @@ function setup_fish () {
 
   SHELL_CURRENT=`echo $SHELL`
   SHELL_NEW=/usr/bin/fish
+  	
+  config_fish
 
   if [[ ! $SHELL_CURRENT =~ fish ]]; then  
   	echo -e "Current SHELL is $SHELL_CURRENT"
@@ -30,8 +32,6 @@ function setup_fish () {
     # https://blog.liang2.tw/posts/2017/01/without-chsh/
     if "$SHELL_NEW" -c 'echo "Test fish running" >/dev/null' ; then
       chsh -s $SHELL_NEW maxdevjs
-      
-      config_fish
     else
       echo "Failed to launch fish shell. Go check its installation!"
       echo "Fall back to default shell $SHELL ..."
@@ -42,6 +42,7 @@ function setup_fish () {
 
   	if [ $(version $FISHER_INSTALLED_VERSION) -lt $(version $FISHER_REMOTE_VERSION) ]; then
       echo -e "Updating fisher to ${FISHER_REMOTE_VERSION}"
+      config_fish
       fish -c fisher update
     else
       echo "Installed version (${FISHER_INSTALLED_VERSION}) is up to date (remote is ${FISHER_REMOTE_VERSION})"
@@ -50,9 +51,14 @@ function setup_fish () {
 }
 
 config_fish() {
+	echo "--- pulling fish config"
 	REPOS=(fish)
   repos "${REPOS[@]}"
-  ~/.config/fish/setup/setup
+  if [[ $(fish -c fisher -v) ]]
+  then
+  	~/.config/fish/setup/setup
+  fi
+
 }
 
 setup_fish

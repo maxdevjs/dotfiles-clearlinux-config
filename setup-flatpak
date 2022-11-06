@@ -20,6 +20,14 @@ function setup_flatpack () {
   flatpak update
   # https://community.clearlinux.org/t/installing-google-chrome-on-clear-linux/1132/58
   flatpak install flathub --user --noninteractive --or-update --ostree-verbose com.google.Chrome com.google.ChromeDev
+  # https://github.com/mjakeman/extension-manager
+  flatpak install flathub --user --noninteractive --or-update --ostree-verbose com.mattjakeman.ExtensionManager #org.gnome.Extensions
+  
+  # https://community.clearlinux.org/t/fail-to-install-vscode/6920/4
+  #flatpak install flathub com.visualstudio.code
+  
+  # Issues? Try:
+  # flatpak repair --user
 }
 
 setup_flatpack
