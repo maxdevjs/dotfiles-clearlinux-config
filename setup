@@ -14,11 +14,12 @@ else
 fi
 
 #. ./setup-docker -> setup-first-time
-. ./setup-fish
-. ./setup-flatpak
-#. ./setup-fonts
-. ./setup-i3
-. ./setup-kitty
+. ./setup-system-fish
+. ./setup-system-flatpak
+#. ./setup-system-fonts
+. ./setup-system-i3
+. ./setup-system-polybar
+. ./setup-system-kitty
 #. ./setup-dev-nix
 #. ./setup-dev-nodejs
 #. ./setup-dev-nvim

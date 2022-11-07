@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-echo setup-flatpack
+echo setup-system-flatpack
 
-function setup_flatpack () {
+setup() {
   #flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
   #flatpak remote-add --if-not-exists flathub https://flatpak.elementary.io/repo.flatpakrepo
   
@@ -30,4 +30,4 @@ function setup_flatpack () {
   # flatpak repair --user
 }
 
-setup_flatpack
+setup

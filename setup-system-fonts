@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
-echo setup-fonts
+echo setup-system-fonts
 
-function setup_fonts () {
+setup() {
   list=("$@")
   installed=( $LIST_INSTALLED )
 
@@ -19,9 +19,9 @@ function setup_fonts () {
 }
 
 
-PACKAGES_FONTS=(font-awesome-ttf font-manager font-hack-ttf font-jetbrainsmono-ttf source-code-pro)
+PACKAGES=(font-awesome-ttf font-manager font-hack-ttf font-jetbrainsmono-ttf source-code-pro)
 
-setup_fonts "${PACKAGES_FONTS[@]}"
+setup "${PACKAGES[@]}"
 
 # TODO: how to check it 😁
 # https://github.com/microsoft/cascadia-code/

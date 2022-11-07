@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-kitty
+echo setup-system-polybar
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -9,13 +9,10 @@ then
 . ./setup-utilities
 fi
 
-setup_kitty() {
-  #single_repo https://github.com/maxdevjs/dotfiles-kitty-config kitty
-  
-	REPOS=(kitty)
-  repos "${REPOS[@]}"
-  
-  if ! exists kitty; then
+setup_polybar() {
+  #single_repo https://github.com/maxdevjs/dotfiles-polybar-config polybar
+
+  if ! exists polybar; then
     # https://nixos.org/manual/nix/stable/introduction.html
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
     cp ./kitty/kitty* $HOME/.local/share/applications
@@ -35,4 +32,26 @@ setup_kitty() {
   fi
 }
 
-setup_kitty
+nix_way() {
+  if ! exists polybar; then
+  	# https://search.nixos.org/packages?channel=22.05&show=polybar&from=0&size=50&sort=relevance&type=packages&query=polybar
+  	nix-env -iA nixpkgs.polybar
+  	#nix-env -i polybar
+	else
+		# https://nixos.org/manual/nix/stable/command-ref/nix-env.html
+		nix-env --upgrade polybar
+  fi
+}
+
+setup_config() {
+	REPOS=(polybar)
+  repos "${REPOS[@]}"
+}
+
+setup() {
+	nix_way
+	setup_config
+}
+
+setup
+

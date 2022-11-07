@@ -90,7 +90,7 @@ install_gnome_integration() {
 	
 	# There is no repository enabled in /etc/yum.repos.d https://access.redhat.com/discussions/6394941
 	# https://community.clearlinux.org/t/best-way-to-install-rpms/5036
-	sudo dnf install chrome-gnome-shell
+	#sudo dnf install chrome-gnome-shell
 	
 	# sassc for vimix gtk themes
 	#sudo swupd bundle-add desktop-apps-extras sassc
@@ -150,7 +150,7 @@ install_flameshot() {
 
 install_i3() {
 	# TODO: nitrogen picom polybar
-	. ./setup-i3
+	. ./setup-system-i3
 }
 
 install_network() {
@@ -160,11 +160,11 @@ install_network() {
 }
 
 install_package_managers() {
-	. ./setup-package-managers
+	. ./setup-system-package-managers
 }
 
 install_samba() {
-	. ./setup-samba
+	. ./setup-system-samba
 }
 
 install_themes() {
@@ -177,7 +177,7 @@ install_themes() {
 }
 
 install_tiling_pop_shell() {
-	. ./setup-pop-os-shell
+	. ./setup-system-pop-os-shell
 }
 
 configure_gnome

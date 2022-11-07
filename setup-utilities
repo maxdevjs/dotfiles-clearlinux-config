@@ -5,6 +5,29 @@ echo setup-utilities
 
 SETUP_DIR=$HOME/Me/system/setup
 BIN_DIR=$HOME/.local/bin
+XDG_CONFIG_HOME=$HOME/.config
+
+cd_to_do() {
+  cd $XDG_CONFIG_HOME/$1
+	echo_pwd
+	
+	list=("$@")
+	list=("${list[@]:1}")
+
+  for do in "${list[@]}"; do
+		eval $do
+		#echo $PWD
+	done
+	
+  cd $SETUP_DIR
+  echo_pwd
+}
+
+echo_pwd() {
+	echo
+	echo -e "\t - now in ${PWD}"
+	echo
+}
 
 exists() { type -t "$1" > /dev/null 2>&1; }
 

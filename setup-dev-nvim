@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-nvim
+echo setup-dev-nvim
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -9,10 +9,14 @@ then
 . ./setup-utilities
 fi
 
-setup_nvim () {
+setup() {
   if ! exists nvim; then
   	install_packages $@
   fi
+	setup_config
+}
+
+setup_config() {
   # TODO: check when backup config
   
   #mv ~/.config/nvim ~/.config/nvimbackup
@@ -32,7 +36,6 @@ setup_nvim () {
   #nvim --headless -c 'LspInstall typescript'
 }
 
-PACKAGES_NVIM=(neovim)
-
-setup_nvim "${PACKAGES_NVIM[@]}"
+PACKAGES=(neovim)
+setup "${PACKAGES[@]}"
 

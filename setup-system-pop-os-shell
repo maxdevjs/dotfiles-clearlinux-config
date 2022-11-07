@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
-echo setup-pop-os-shell
+echo setup-system-pop-os-shell
 
 # https://community.clearlinux.org/t/i3-functionality-built-into-gnome/3777
 
-setup_tiling_pop_shell() {
+setup() {
 	cd /tmp
 	git clone https://github.com/pop-os/shell.git pop-os-shell
 	cd pop-os-shell
@@ -28,4 +28,4 @@ setup_tiling_pop_shell() {
 	# https://support.system76.com/articles/pop-keyboard-shortcuts/
 }
 
-setup_tiling_pop_shell
+setup

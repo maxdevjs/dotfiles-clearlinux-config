@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-nix
+echo setup-dev-nix
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -9,7 +9,7 @@ then
 . ./setup-utilities
 fi
 
-function setup_nix () {
+function setup () {
   if ! exists nix; then
     # https://nixos.org/manual/nix/stable/introduction.html
     curl -L https://nixos.org/nix/install | sh
@@ -30,4 +30,4 @@ function setup_nix () {
   fi
 }
 
-setup_nix
+setup

@@ -1,0 +1,41 @@
+#!/usr/bin/env sh
+echo setup-system-nnn
+
+# Includes setup-utilities only for standalone (directly calling)
+# use of this script (otherwise the script is called from setup
+# and the import is not necessary)
+if [ $0 ]
+then
+. ./setup-utilities
+fi
+
+# https://github.com/jarun/nnn
+
+nix_way() {
+  if ! exists nnn; then
+  	# https://search.nixos.org/packages?channel=22.05&show=polybar&from=0&size=50&sort=relevance&type=packages&query=nnn
+  	#nix-env -iA nixpkgs.polybar
+  	nix-env -iA nixpkgs.nnn
+	else
+		# https://nixos.org/manual/nix/stable/command-ref/nix-env.html
+		nix-env --upgrade nnn
+  fi
+}
+
+setup_config() {
+	REPOS=(nnn)
+  repos "${REPOS[@]}"
+  
+  # 'rm ./*.tar.gz'
+	DO=(nnn 'rm -r ./plugins > /dev/null 2>&1' 'curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh')
+
+	cd_to_do "${DO[@]}"
+}
+
+setup() {
+	nix_way
+	setup_config
+}
+
+setup
+

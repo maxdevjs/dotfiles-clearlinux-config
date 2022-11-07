@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-package-managers
+echo setup-system-package-managers
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -9,7 +9,7 @@ then
 . ./setup-utilities
 fi
 
-install_package_managers () {
+setup() {
   if ! exists dnf
   then
   	if [ ! -d sudo mkdir /etc/yum.repos.d ]
@@ -30,7 +30,6 @@ install_package_managers () {
 }
 
 	# dnf: dnf+rpm, package-utils: rpm-extras	
-PACKAGES_MANAGER=(dnf package-utils)
-
-install_package_managers "${PACKAGES_MANAGER[@]}"
+PACKAGES=(dnf package-utils)
+setup "${PACKAGES[@]}"
 

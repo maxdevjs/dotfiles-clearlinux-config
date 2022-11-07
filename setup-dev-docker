@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-docker
+echo setup-dev-docker
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -9,7 +9,7 @@ then
 . ./setup-utilities
 fi
 
-function setup_docker () {
+function setup () {
   if ! exists docker; then
     #sudo swupd bundle-add containers-basic docker-compose
     PACKAGES_DOCKER=(containers-basic docker-compose)
@@ -45,7 +45,7 @@ function setup_docker () {
     
   fi
   
-  if [ systemctl status docker.service | grep disabled ]
+  if [[ systemctl status docker.service | grep disabled ]]
   then
     # https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot
     sudo systemctl enable docker.service
@@ -56,4 +56,4 @@ function setup_docker () {
 	fi
 }
 
-setup_docker
+setup

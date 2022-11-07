@@ -15,6 +15,9 @@ rpm_way() {
   	# https://code.visualstudio.com/docs/setup/linux#_rhel-fedora-and-centos-based-distributions
   	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 		sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+		
+		# https://github.com/clearfraction/bundles/blob/dd00a4d820443f0df970b51cc62c7f54d8ac20f4/build.sh#L7
+		alias dnf='dnf -q -y --releasever=latest --disableplugin=changelog,needs_restarting'
 		dnf check-update
 		
 		# https://unix.stackexchange.com/questions/516079/error-libpthread-so-064bit-is-needed-by-code-1-33-1-xyz-couldnt-install
@@ -32,7 +35,8 @@ rpm_way() {
 nix_way() {
   if ! exists code; then
   	export NIXPKGS_ALLOW_UNFREE=1
-  	nix-env -i vscode
+  	#nix-env -i vscode
+  	nix-env -iA nixpkgs.vscode
   	cp ./vscode/*.desktop $HOME/.local/share/applications
     update-desktop-database $HOME/.local/share/applications
 	else
@@ -43,8 +47,8 @@ nix_way() {
   fi
 }
 
-setup_vscode () {
+setup () {
 	nix_way
 }
 
-setup_vscode
+setup

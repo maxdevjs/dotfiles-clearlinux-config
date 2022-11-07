@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-fish
+echo setup-system-fish
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -15,20 +15,18 @@ fi
 # https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell/46856#46856
 
 # https://www.cyberciti.biz/faq/change-my-default-shell-in-linux-using-chsh/
-function setup_fish () {
+setup() {
   
   #sudo swupd bundle-add shells # in setup-first-time
 
   SHELL_CURRENT=`echo $SHELL`
   SHELL_NEW=/usr/bin/fish
   	
-  config_fish
+  setup_config
 
   if [[ ! $SHELL_CURRENT =~ fish ]]; then  
   	echo -e "Current SHELL is $SHELL_CURRENT"
 
-    export XDG_CONFIG_HOME=~/.config
-    
     # https://blog.liang2.tw/posts/2017/01/without-chsh/
     if "$SHELL_NEW" -c 'echo "Test fish running" >/dev/null' ; then
       chsh -s $SHELL_NEW maxdevjs
@@ -42,7 +40,7 @@ function setup_fish () {
 
   	if [ $(version $FISHER_INSTALLED_VERSION) -lt $(version $FISHER_REMOTE_VERSION) ]; then
       echo -e "Updating fisher to ${FISHER_REMOTE_VERSION}"
-      config_fish
+      setup_config
       fish -c fisher update
     else
       echo "Installed version (${FISHER_INSTALLED_VERSION}) is up to date (remote is ${FISHER_REMOTE_VERSION})"
@@ -50,15 +48,15 @@ function setup_fish () {
   fi
 }
 
-config_fish() {
+setup_config() {
 	echo "--- pulling fish config"
 	REPOS=(fish)
   repos "${REPOS[@]}"
   if [[ $(fish -c fisher -v) ]]
   then
-  	~/.config/fish/setup/setup
+  	$XDG_CONFIG_HOME/fish/setup/setup
   fi
 
 }
 
-setup_fish
+setup

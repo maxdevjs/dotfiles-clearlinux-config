@@ -25,6 +25,8 @@ Personal config/setup files for Clear Linux
 
 ### Criticals
 
+- [ ] check [Clear Fraction, the third-party repository for Clear Linux](https://community.clearlinux.org/t/clear-fraction-the-third-party-repository-for-clear-linux/7243)
+
 - [ ] [fish shell](https://fishshell.com/)
 	- [ ] [fisher](https://github.com/jorgebucaran/fisher)
 		- [ ] [nvm.fish](https://github.com/jorgebucaran/nvm.fish)
@@ -36,9 +38,10 @@ Personal config/setup files for Clear Linux
 		 	 			- unavailable in new spawned shells
 		
 - [ ] Nitrogen: install
-- [ ] Polybar: install
+- [x] Polybar: install (via [nix](https://search.nixos.org/packages?channel=22.05&show=polybar&from=0&size=50&sort=relevance&type=packages&query=polybar))
 
 - [ ] `i3`
+- [ ] refactor `setup-system-i3`
 	- [ ] mom, I lost `gnome-settings-daemon`
 		- [ ] [use gnome 43 gnome services with i3](https://www.google.com/search?q=use+gnome+43+gnome+services+with+i3)
 		- [ ] [Is gnome-settings-daemon no longer a program I can run from the command line?](https://www.reddit.com/r/gnome/comments/wt8oml/is_gnomesettingsdaemon_no_longer_a_program_i_can/)
@@ -59,7 +62,7 @@ Personal config/setup files for Clear Linux
 				- [ ] [Regolith](https://regolith-linux.org/)
 
 - [ ] [VSCode](https://code.visualstudio.com):
-	- [x] install via `nix-env`
+	- [x] install (via [nix](https://search.nixos.org/packages?channel=22.05&show=polybar&from=0&size=50&sort=relevance&type=packages&query=vscode))
 	- [ ] install via `rpm`
 	- [ ] install via `flatpak`
 
@@ -71,9 +74,16 @@ Personal config/setup files for Clear Linux
 ### Normal
 
 - [ ] fonts
+
 - [ ] `gh`: check version for update
+
 - [ ] `install_ffmpeg.bash`: refactor
+
 - [x] `vimix-icon-theme`: fix installation
+- [ ] `vimix-icon-theme`: fix update
+- [ ] `vimix-gtk-themes`: fix update (`curl -s https://api.github.com/repos/vinceliuice/vimix-gtk-themes/releases/latest | grep -oP '"tag_name": "\K(.*)
+(?=")' | cut -c2-`)
+
 - [ ] `fzf`: install
 - refactor
 	- [x] `setup-fish`: installation/update

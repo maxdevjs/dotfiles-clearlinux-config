@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo setup-samba
+echo setup-system-samba
 
 # Includes setup-utilities only for standalone (directly calling)
 # use of this script (otherwise the script is called from setup
@@ -13,7 +13,7 @@ fi
 #Job for samba.service failed because the control process exited with error code.
 #See "systemctl status samba.service" and "journalctl -xeu samba.service" for details.
 
-setup_samba () {
+setup () {
   if ! exists samba; then
   	install_packages $@
 
@@ -52,6 +52,6 @@ EOF
 	fi
 }
 
-PACKAGES_SAMBA=(samba nfs-utils storage-utils)
-setup_samba "${PACKAGES_SAMBA[@]}"
+PACKAGES=(samba nfs-utils storage-utils)
+setup "${PACKAGES[@]}"
 
